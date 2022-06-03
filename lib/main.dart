@@ -77,6 +77,27 @@ class EleveView extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(title: Text("Eleve : $eleve")),
-        body: Center(child: Text("Info de $eleve")));
+        body: Center(
+            child: FutureBuilder<http.Response>(
+          future: http.get(Uri.parse("http://localhost:8080/notes/$eleve")),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              Future.delayed(Duration(seconds: 3), () {
+                Navigator.pop(context);
+              });
+              return const Center(
+                child: Text("La récupération des infos a échouée"),
+              );
+            } else if (snapshot.hasData) {
+              var notes = jsonDecode(snapshot.data!.body)["data"];
+              return Center(
+                child: Text(notes),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        )));
+  }
   }
 }
