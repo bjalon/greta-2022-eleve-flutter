@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       print(snapshot.error);
       return const Center(child: Text("Une erreur serveur s'est produite"));
     } else if (snapshot.hasData) {
-      final jsonString = snapshot.data!.body.replaceAll("'", "\"");
+      final jsonString = snapshot.data!.body;
       final json = jsonDecode(jsonString);
 
       return Center(child: ElevesWidget(json["data"]));
