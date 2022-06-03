@@ -91,7 +91,7 @@ class EleveView extends StatelessWidget {
             } else if (snapshot.hasData) {
               var notes = jsonDecode(snapshot.data!.body)["data"];
               return Center(
-                child: Text(notes),
+                child: NotesWidget(notes),
               );
             } else {
               return CircularProgressIndicator();
@@ -99,5 +99,23 @@ class EleveView extends StatelessWidget {
           },
         )));
   }
+}
+
+class NotesWidget extends StatelessWidget {
+  final List<dynamic> notes;
+
+  const NotesWidget(this.notes, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> columnChildren = [];
+
+    for (var note in notes) {
+      columnChildren.add(Text(note.toString()));
+    }
+
+    return Column(
+      children: columnChildren,
+    );
   }
 }
