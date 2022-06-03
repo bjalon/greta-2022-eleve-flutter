@@ -91,7 +91,7 @@ class EleveView extends StatelessWidget {
             } else if (snapshot.hasData) {
               var notes = jsonDecode(snapshot.data!.body)["data"];
               return Center(
-                child: NotesWidget(notes),
+                child: NotesWidget(eleve.toString(), notes),
               );
             } else {
               return CircularProgressIndicator();
@@ -101,21 +101,46 @@ class EleveView extends StatelessWidget {
   }
 }
 
-class NotesWidget extends StatelessWidget {
+class NotesWidget extends StatefulWidget {
   final List<dynamic> notes;
+  final String eleve;
 
-  const NotesWidget(this.notes, {Key? key}) : super(key: key);
+  const NotesWidget(this.eleve, this.notes, {Key? key}) : super(key: key);
+
+  @override
+  State<NotesWidget> createState() => _NotesWidgetState();
+}
+
+class _NotesWidgetState extends State<NotesWidget> {
+  int? moyenne;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> columnChildren = [];
 
-    for (var note in notes) {
+    if (moyenne != null) {
+      columnChildren.add(Text("La moyenne est de $moyenne"));
+    }
+
+    for (var note in widget.notes) {
       columnChildren.add(Text(note.toString()));
     }
 
     return Column(
       children: columnChildren,
     );
+  }
+
+  @override
+  void initState() {
+    fetchMoyenne();
+  }
+
+  Future<void> fetchMoyenne() async {
+    final response = await http
+        .get(Uri.parse("http://localhost:8080/moyenne/${widget.eleve}"));
+    setState(() {
+      moyenne = jsonDecode(response.body)["data"];
+    });
   }
 }
