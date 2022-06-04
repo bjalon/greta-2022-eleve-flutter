@@ -113,6 +113,7 @@ class NotesWidget extends StatefulWidget {
 
 class _NotesWidgetState extends State<NotesWidget> {
   double? moyenne;
+  String? newNoteToAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +126,18 @@ class _NotesWidgetState extends State<NotesWidget> {
     for (var note in widget.notes) {
       columnChildren.add(Text(note.toString()));
     }
+
+    columnChildren.add(TextField(onChanged: (value) => newNoteToAdd = value));
+    columnChildren.add(ElevatedButton(
+        onPressed: () async {
+          if (newNoteToAdd == null || newNoteToAdd!.isEmpty) {
+            print("Rien à ajouter");
+          } else {
+            http.post(Uri.parse(
+                "http://localhost:8080/notes/${widget.eleve}?note=$newNoteToAdd"));
+          }
+        },
+        child: Text("Ajouter")));
 
     return Column(
       children: columnChildren,
