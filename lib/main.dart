@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final url = Uri.parse('http://192.168.68.101:8080/eleves');
+    final url = Uri.parse('http://localhost:8080/eleves');
     // var url = Uri.https('www.googleapis.com', '/books/v1/volumes', {'q': '{http}'});
     return Scaffold(
       appBar: AppBar(
