@@ -135,6 +135,7 @@ class _NotesWidgetState extends State<NotesWidget> {
           } else {
             http.post(Uri.parse(
                 "http://localhost:8080/notes/${widget.eleve}?note=$newNoteToAdd"));
+            Navigator.popAndPushNamed(context, "/eleve", arguments: widget.eleve);
           }
         },
         child: Text("Ajouter")));
