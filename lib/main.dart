@@ -112,7 +112,7 @@ class NotesWidget extends StatefulWidget {
 }
 
 class _NotesWidgetState extends State<NotesWidget> {
-  int? moyenne;
+  double? moyenne;
 
   @override
   Widget build(BuildContext context) {
